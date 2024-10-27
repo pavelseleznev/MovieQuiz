@@ -9,17 +9,17 @@ final class MovieQuizViewController: UIViewController {
     }
     
     // MARK: - IB Outlets
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var textLabel: UILabel!
-    @IBOutlet private var counterLabel: UILabel!
+    @IBOutlet weak private var imageView: UIImageView!
+    @IBOutlet weak private var textLabel: UILabel!
+    @IBOutlet weak private var counterLabel: UILabel!
     @IBOutlet weak private var noButton: UIButton!
     @IBOutlet weak private var yesButton: UIButton!
     
     // MARK: - Private Properties
     /// Var containing index of the current question, initial value 0 (this index will search question in array, where first element's index is 0, not 1)
-    private var currentQuestionIndex = 0
-    /// Var containing the count of correct answers, initial value naturally 0
-    private var correctAnswers = 0
+    private var currentQuestionIndex: Int = .zero
+    /// Var containing the count of correct answers, initial value naturally .zero
+    private var correctAnswers: Int = .zero
     
     /// View model for state "Question displayed"
     private struct QuizStepViewModel {
@@ -126,7 +126,7 @@ final class MovieQuizViewController: UIViewController {
         counterLabel.text = step.questionNumber
     }
     
-    /// Private method that changes image frame color. Takes bool value - returns nothing
+    /// Private method that changes image frame color. Takes bool value - returns nil
     private func showAnswerResult(isCorrect: Bool) {
         changeStateButton(isEnabled: false)
         if isCorrect {
@@ -141,7 +141,7 @@ final class MovieQuizViewController: UIViewController {
         }
     }
     
-    /// Private method which contains transition logic to one of scenarios. Method accepts/returns nothing
+    /// Private method which contains transition logic to one of scenarios. Method accepts/returns nil
     private func showNextQuestionOrResults() {
         changeStateButton(isEnabled: true)
         if currentQuestionIndex == questions.count - 1 {
@@ -151,7 +151,7 @@ final class MovieQuizViewController: UIViewController {
                 text: text,
                 buttonText: "Сыграть ещё раз")
             show(quiz: viewModel)
-            imageView.layer.borderWidth = 0
+            imageView.layer.borderWidth = .zero
             imageView.layer.borderColor = UIColor.clear.cgColor
         } else {
             currentQuestionIndex += 1
@@ -160,7 +160,7 @@ final class MovieQuizViewController: UIViewController {
             let viewModel = convert(model: nextQuestion)
             
             show(quiz: viewModel)
-            imageView.layer.borderWidth = 0
+            imageView.layer.borderWidth = .zero
             imageView.layer.borderColor = UIColor.clear.cgColor
         }
     }
@@ -172,8 +172,8 @@ final class MovieQuizViewController: UIViewController {
                                   preferredStyle: .alert)
         
         let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
+            self.currentQuestionIndex = .zero
+            self.correctAnswers = .zero
             
             let firstQuestion = self.questions[self.currentQuestionIndex]
             let viewModel = self.convert(model: firstQuestion)
