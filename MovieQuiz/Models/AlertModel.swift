@@ -5,7 +5,7 @@
 //  Created by Pavel Seleznev on 11/5/24.
 //
 
-import UIKit
+import Foundation
 
 /// Alert struct for displaying alert at the end of the quiz
 struct AlertModel {
@@ -16,5 +16,5 @@ struct AlertModel {
     /// Text of alert's button
     var buttonText: String
     /// Closure without parameters for action button alert
-    let completion: ((UIAlertAction) -> Void)?
+    let completion: () -> Void
 }

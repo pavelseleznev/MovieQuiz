@@ -56,7 +56,7 @@ final class MovieQuizViewController: UIViewController  {
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
-    // MARK: Private methods
+    // MARK: Private Methods
     /// Private conversion method which accepts mock question and returns view model to display question
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
@@ -107,7 +107,7 @@ final class MovieQuizViewController: UIViewController  {
             let alertModel = AlertModel(
                 title: "Этот раунд окончен!",
                 message: message,
-                buttonText: "Сыграть ещё раз") { [weak self] _ in
+                buttonText: "Сыграть ещё раз") { [weak self ] in
                     guard let self = self else { return }
                     self.correctAnswers = .zero
                     self.currentQuestionIndex = .zero
@@ -126,7 +126,7 @@ final class MovieQuizViewController: UIViewController  {
         }
     }
     
-    /// Private method that enables/disables yesButton&noButton
+    /// Private method that enables/disables noButton&yesButton
     private func changeStateButton(isEnabled: Bool) {
         noButton.isEnabled = isEnabled
         yesButton.isEnabled = isEnabled
