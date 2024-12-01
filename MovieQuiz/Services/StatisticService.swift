@@ -69,7 +69,7 @@ final class StatisticService: StatisticServiceProtocol {
     /// Updates the best game score and date
     func store(correct count: Int, total amount: Int) {
         gamesCount += 1
-
+        
         let currentCorrectAnswers = storage.integer(forKey: Keys.currentCorrectAnswers.rawValue) + count
         let currentQuestionsAmount = storage.integer(forKey: Keys.currentQuestionsAmount.rawValue) + amount
         let currentGameDate = storage.object(forKey: Keys.currentGameDate.rawValue) as? Date ?? Date()
