@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// For state "Quiz results"
+/// View model for state "Game Result"
 struct QuizResultsViewModel {
     /// Line with alert's headline
     let title: String

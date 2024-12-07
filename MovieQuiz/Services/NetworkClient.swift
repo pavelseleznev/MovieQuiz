@@ -7,13 +7,18 @@
 
 import Foundation
 
-/// Network struct for providing loading data via URL
-struct NetworkClient {
+protocol NetworkRouting {
+    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+}
+
+/// Network struct for providing loading data functionality via URL
+struct NetworkClient: NetworkRouting {
     
     private enum NetworkError: Error {
         case codeError
     }
     
+    /// Method for loading data via URLSession, returning response via HTTPURLResponse and providing data if request is successful
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
         let request = URLRequest(url: url)
         

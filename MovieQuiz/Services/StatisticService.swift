@@ -65,8 +65,7 @@ final class StatisticService: StatisticServiceProtocol {
         return Double(totalCorrectAnswers) / Double(gamesCount * 10) * 100.0
     }
     
-    /// Processes number of correct answers,  questions, games played.
-    /// Updates the best game score and date
+    /// Processes number of correct answers,  questions, games played. Updates the best game score and date
     func store(correct count: Int, total amount: Int) {
         gamesCount += 1
         
