@@ -7,11 +7,13 @@
 
 import Foundation
 
+/// Movie struct for displaying network error message and array of movie items
 struct MostPopularMovies: Codable {
     let errorMessage: String
     let items: [MostPopularMovie]
 }
 
+/// Movie struct containing movie title, rating, IMDB's poster URL. resizedImageURL for loading high resolution poster images
 struct MostPopularMovie: Codable {
     let title: String
     let rating: String

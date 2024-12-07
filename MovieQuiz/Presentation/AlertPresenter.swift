@@ -9,14 +9,14 @@ import UIKit
 
 final class AlertPresenter: AlertPresenterProtocol {
     
-    /// Variable delegate adds support for present() method in showAlert method
+    /// Private var delegate adds support for present() method in showAlert method
     private weak var delegate: UIViewController?
     
     init(delegate: UIViewController) {
         self.delegate = delegate
     }
     
-    /// Private method which shows round quiz results. Accepts AlertModel and returns nil
+    /// Method which shows round quiz results. Accepts AlertModel and returns nil. Sets alert identifier
     func showAlert(quiz alertModel: AlertModel) {
         let alert = UIAlertController(
             title: alertModel.title,
@@ -30,6 +30,7 @@ final class AlertPresenter: AlertPresenterProtocol {
             }
         
         alert.addAction(action)
+        alert.view.accessibilityIdentifier = "Result Alert"
         delegate?.present(alert, animated: true, completion: nil)
     }
 }

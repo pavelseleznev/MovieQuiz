@@ -15,7 +15,7 @@ protocol StatisticServiceProtocol {
     func store(correct count: Int, total amount: Int)
 }
 
-/// Stucture model game result
+/// Struct model game result
 struct GameResult {
     let correct: Int
     let total: Int

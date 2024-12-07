@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Question struct for displaying questions during the quiz
 struct QuizQuestion {
     /// Data containing the movie poster loaded from IMDB database
     let image: Data
