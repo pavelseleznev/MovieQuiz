@@ -1,27 +1,12 @@
 //
-//  MovieQuizViewControllerMock.swift
+//  MovieQuizPresenterTests.swift
 //  MovieQuizTests
 //
-//  Created by Pavel Seleznev on 12/5/24.
+//  Created by Pavel Seleznev on 12/12/24.
 //
 
 import XCTest
 @testable import MovieQuiz
-
-final class MovieQuizViewControllerMock: MovieQuizViewControllerProtocol {
-    func show(quiz step: MovieQuiz.QuizStepViewModel) {}
-    func showGameResultAlert(quiz result: MovieQuiz.QuizResultsViewModel) {}
-    
-    func highlightImageBorder(isCorrectAnswer: Bool) {}
-    
-    func showLoadingIndicator() {}
-    func hideLoadingIndicator() {}
-    
-    func showNetworkError(message: String) {}
-    func showImageError(message: String) {}
-    
-    func changeStateButton(isEnabled: Bool) {}
-}
 
 final class MovieQuizPresenterTests: XCTestCase {
     func testPresenterConvertModel() throws {

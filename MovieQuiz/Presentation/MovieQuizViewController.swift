@@ -2,14 +2,6 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol  {
     
-    // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        alertPresenter = AlertPresenter(delegate: self)
-        presenter = MovieQuizPresenter(viewController: self)
-    }
-    
     // MARK: - IB Outlets
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var textLabel: UILabel!
@@ -20,19 +12,27 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     
     // MARK: - Private Properties
     /// Private var adds business logic support from MovieQuizPresenter
-    private var presenter: MovieQuizPresenter!
+    private var presenter: MovieQuizPresenter?
     /// Private var adds support for showing game result/network failure alerts
     private var alertPresenter: AlertPresenter?
     
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        alertPresenter = AlertPresenter(delegate: self)
+        presenter = MovieQuizPresenter(viewController: self)
+    }
+    
     // MARK: - IBActions
     /// Method indicating yes button tapped
-    @IBAction private func yesButtonClicked() {
-        presenter.yesButtonClicked()
+    @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        presenter?.buttonClicker(isYes: true)
     }
     
     /// Method indicating no button tapped
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        presenter.noButtonClicked()
+        presenter?.buttonClicker(isYes: false)
     }
     
     // MARK: Internal Methods
@@ -52,7 +52,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
             buttonText: result.buttonText,
             completion: { [weak self] in
                 guard let self = self else { return }
-                self.presenter.restartGame()
+                self.presenter?.restartGame()
             }
         )
         alertPresenter?.showAlert(quiz: alertModel)

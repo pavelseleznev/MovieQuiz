@@ -9,6 +9,19 @@ import UIKit
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     
+    // MARK: - Internal Property
+    /// Var adds support for question factory. E.g. methods requestNextQuestion & func loadData
+    var questionFactory: QuestionFactoryProtocol?
+    
+    // MARK: - Private Properties
+    private weak var viewController: MovieQuizViewControllerProtocol?
+    private let statisticService: StatisticServiceProtocol?
+    private var currentQuestionIndex: Int = .zero
+    private var currentQuestion: QuizQuestion?
+    private var correctAnswers: Int = .zero
+    private var questionsAmount: Int = 10
+    
+    // MARK: - Initializers
     init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
         
@@ -16,18 +29,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         questionFactory?.loadData()
     }
-    
-    // MARK: - Internal Property
-    /// Var adds support for question factory. E.g. methods requestNextQuestion & func loadData
-    var questionFactory: QuestionFactoryProtocol?
-    
-    // MARK: - Private Properties
-    private weak var viewController: MovieQuizViewControllerProtocol?
-    private let statisticService: StatisticServiceProtocol!
-    private var currentQuestionIndex: Int = .zero
-    private var currentQuestion: QuizQuestion?
-    private var correctAnswers: Int = .zero
-    private var questionsAmount: Int = 10
     
     // MARK: - Internal Methods
     /// Method for case network data loads successfully. E.g. hides network indicator, requests next question
@@ -75,14 +76,9 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         }
     }
     
-    /// Method indicating yes button tapped
-    func yesButtonClicked() {
-        didAnswer(isYes: true)
-    }
-    
-    /// Method indicating no button tapped
-    func noButtonClicked() {
-        didAnswer(isYes: false)
+    /// Method indicating yes/no buttons tapped
+    func buttonClicker(isYes: Bool) {
+        didAnswer(isYes: isYes)
     }
     
     /// Method sets number of question index/correct answers to zero. Requests next question
@@ -98,13 +94,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         currentQuestionIndex == questionsAmount - 1
     }
     
-    /// Private method summarizing amount of correct answers
-    private func didAnswer(isCorrectAnswer: Bool) {
-        if isCorrectAnswer {
-            correctAnswers += 1
-        }
-    }
-    
     /// Private method indicating whether the answer is correct or not
     private func didAnswer(isYes: Bool) {
         guard let currentQuestion = currentQuestion else { return }
@@ -118,7 +107,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     private func proceedWithAnswer(isCorrect: Bool) {
         viewController?.changeStateButton(isEnabled: false)
         
-        didAnswer(isCorrectAnswer: isCorrect)
+        if isCorrect { correctAnswers += 1 }
         viewController?.highlightImageBorder(isCorrectAnswer: isCorrect)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
@@ -150,6 +139,10 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     /// Private method calculates game statistics/formats game result message
     private func makeResultsMessage() -> String {
+        guard let statisticService = statisticService else {
+            assertionFailure("Failed to load statisticService")
+            return ""
+        }
         statisticService.store(correct: correctAnswers, total: questionsAmount)
         
         let resultsMessage = """
