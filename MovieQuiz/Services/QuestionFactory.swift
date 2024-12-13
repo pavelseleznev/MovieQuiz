@@ -17,6 +17,7 @@ final class QuestionFactory: QuestionFactoryProtocol {
         self.delegate = delegate
     }
     
+    /// Method allows factory to load data or show an error in case of network failure
     func loadData() {
         moviesLoader.loadMovies { [weak self] result in
             DispatchQueue.main.async {
@@ -27,10 +28,11 @@ final class QuestionFactory: QuestionFactoryProtocol {
                         self.movies = mostPopularMovies.items
                         self.delegate?.didLoadDataFromServer()
                     } else {
-                        self.delegate?.didFailToLoadDataMessage(with: mostPopularMovies.errorMessage)
+                        self.delegate?.didFailToLoadData(with: mostPopularMovies.errorMessage)
                     }
                 case .failure(let error):
-                    self.delegate?.didFailToLoadData(with: error)
+                    self.delegate?.didFailToLoadData(with: error.localizedDescription)
+                    
                 }
             }
         }
@@ -55,6 +57,7 @@ final class QuestionFactory: QuestionFactoryProtocol {
             guard let movie = self.movies[safe: index] else { return }
             
             var imageData = Data()
+            
             
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)
